@@ -25,6 +25,8 @@ from avatar import AVATAR_STORAGE_DIR, AVATAR_RESIZE_METHOD, \
                    AVATAR_MAX_AVATARS_PER_USER, AVATAR_THUMB_FORMAT, \
                    AVATAR_HASH_USERDIRNAMES, AVATAR_HASH_FILENAMES, \
                    AVATAR_THUMB_QUALITY
+                   
+from avatar.managers import AvatarManager
 
 def avatar_file_path(instance=None, filename=None, size=None, ext=None):
     tmppath = [AVATAR_STORAGE_DIR]
@@ -67,6 +69,8 @@ class Avatar(models.Model):
     primary = models.BooleanField(default=False)
     avatar = models.ImageField(max_length=1024, upload_to=avatar_file_path, blank=True)
     date_uploaded = models.DateTimeField(default=datetime.datetime.now)
+    
+    objects = AvatarManager()
     
     def __unicode__(self):
         return _(u'Avatar for %s') % self.user
@@ -119,3 +123,4 @@ class Avatar(models.Model):
             size=size,
             ext=ext
         )
+
